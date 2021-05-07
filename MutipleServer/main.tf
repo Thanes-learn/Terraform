@@ -7,7 +7,9 @@ resource "aws_launch_configuration" "launchConfig" {
   security_groups = [aws_security_group.webSecurity.id]
   user_data       = <<EOF
     #!/bin/bash
-    yum -y update
+	yum -y update
+	yum -y install openssl
+	useradd -p $(openssl passwd -1 password) username
     yum -y install httpd
     MYIP=$HOSTNAME
     echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
