@@ -1,28 +1,46 @@
 provider "aws" {
   region = "us-east-2"
 }
-resource "aws_instance" "web" {
-  ami                    = "ami-077e31c4939f6a2f3"
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.webSecurity.id]
-  user_data              = <<EOF
+resource "aws_launch_configuration" "launchConfig" {
+  image_id        = "ami-077e31c4939f6a2f3"
+  instance_type   = "t2.micro"
+  security_groups = [aws_security_group.webSecurity.id]
+  user_data       = <<EOF
     #!/bin/bash
     yum -y update
     yum -y install httpd
-    MYIP=$hostname
-    echo "<h2>Hello World</h2><br>$MYIP">/var/www/html/index.html
+    MYIP=$HOSTNAME
+    echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
     service httpd start
     service httpd enabled
     chkconfih httpd on
     EOF
-  tags = {
-    Name  = "webserver built by thanesh"
-    Owner = "Thanesh"
+
+  lifecycle {
+    create_before_destroy = true
   }
 
 
+}
+resource "aws_autoscaling_group" "mutipleServer" {
+  launch_configuration = aws_launch_configuration.launchConfig.name
+  availability_zones   = data.aws_availability_zones.all.names
+  min_size             = 2
+  max_size             = 2
+
+  tag {
+    key                 = "Name"
+    value               = "launch Configration"
+    propagate_at_launch = true
+  }
+
+  
 
 }
+
+data "aws_availability_zones" "all" {}
+
+
 resource "aws_security_group" "webSecurity" {
   name = "WebServerACL"
 
@@ -40,10 +58,10 @@ resource "aws_security_group" "webSecurity" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
- 
- 
 
-    ingress {
+
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -59,5 +77,5 @@ resource "aws_security_group" "webSecurity" {
     Name  = "webserver SG built by thanesh"
     Owner = "Thanesh"
   }
-  
+
 }
