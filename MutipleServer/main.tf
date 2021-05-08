@@ -9,7 +9,7 @@ resource "aws_launch_configuration" "launchConfig" {
     #!/bin/bash
 	yum -y update
 	yum -y install openssl
-	useradd -p $(openssl passwd -1 password) username
+	useradd -p $(openssl passwd -1 admin@123) admin  
     yum -y install httpd
     MYIP=$HOSTNAME
     echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html

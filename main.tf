@@ -10,7 +10,12 @@ resource "aws_instance" "web" {
     #!/bin/bash
 	yum -y update
 	yum -y install openssl
-	useradd -p $(openssl passwd -1 admin@123) admin
+	useradd monitor -G wheel
+  echo "admin@123" | passwd --stdin monitor
+  sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+  systemctl stop sshd
+  sleep 10
+  systemctl start sshd
     yum -y install httpd
     MYIP=$HOSTNAME
     echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
