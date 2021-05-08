@@ -1,3 +1,4 @@
+#!/bin/bash
 STATUS=$(ssh -i adminSSH.pem ec2-user@3.138.199.149 systemctl status httpd | grep "Active" | awk '{ print substr($3,2,length($3)-2)}')
 echo $STATUS
 
