@@ -5,18 +5,27 @@ resource "aws_launch_configuration" "launchConfig" {
   image_id        = "ami-077e31c4939f6a2f3"
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.webSecurity.id]
+  key_name = "adminSSH"
   user_data       = <<EOF
-    #!/bin/bash
+  #!/bin/bash
 	yum -y update
 	yum -y install openssl
-	useradd -p $(openssl passwd -1 admin@123) admin  
-    yum -y install httpd
-    MYIP=$HOSTNAME
-    echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
-    service httpd start
-    service httpd enabled
-    chkconfih httpd on
-    EOF
+	useradd monitor -G wheel
+  echo "admin@123" | passwd --stdin monitor
+  sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+  service restart sshd
+  service sshd restart
+  yum -y install httpd
+  MYIP=$HOSTNAME
+  echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
+  service httpd start
+  service httpd enabled
+  service sshd restart
+  chkconfih httpd on
+  aws s3 cp s3://logs-terrafrom-backup-files/Script/restartHTTPD.sh restart.sh
+  chmod 600 restart.sh
+  EOF
+
 
   lifecycle {
     create_before_destroy = true
