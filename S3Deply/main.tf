@@ -6,6 +6,8 @@ variable "s3_bucket_name" {
    type = list(string)
    default = ["html123456", "scipts123456"]
 }
+
+# Bucket Creation process individualy and groups
 resource "aws_s3_bucket" "mainbucket" {
    count = "${length(var.s3_bucket_name)}"
    bucket = "${var.s3_bucket_name[count.index]}"
@@ -24,21 +26,21 @@ resource "aws_s3_bucket" "sourcebucket" {
    }
    force_destroy = "true"
 }
-------------------------------------------------Excute After Bucket Created--------------------------
+#------------------------------------------------Excute After Bucket Created--------------------------
+# Getting Bucket id by bucket Name
 data "aws_s3_bucket" "testbucket" {
   bucket="backuplogs123456"
 }
 
+
+#Uploading File to Bucket 
 resource "aws_s3_bucket_object" "uploadingHTML" {
 
   bucket = data.aws_s3_bucket.testbucket.id
 
-  key    = "profile.html"
+  key    = "index.html"
 
   acl    = "public-read-write"  # or can be "public-read"
 
   source = "index.html"
-
-  
-
 }
