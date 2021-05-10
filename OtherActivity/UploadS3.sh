@@ -1,6 +1,9 @@
 #!/bin/bash
 echo "Upload logs to S3"
 hostname="18.216.48.95"
+from="thanesh.aws@gmail.com"
+to="thanesh.aws@gmail.com"
+subject=""
 S3_URL="s3://logs-terrafrom-backup-files/logs/"
 echo "connecting Server $hostname  "
 ssh -o "StrictHostKeyChecking=no" -i adminSSH.pem ec2-user@$hostname 'ls -l';
@@ -35,7 +38,9 @@ aws s3 cp logs_$(date +%F-%H).zip $S3_URL
 S3_STATUS=$?
 if [ $S3_STATUS != "0" ]
 then
-    echo "Error in s3 file upload"
+    subject="Error in s3 file upload"
+    echo $subject
+    mailx  -s "$subject" -r "$from" -c "$to"
 else
     echo "File upload sucessfully"
     aws s3 ls  $S3_URL |grep logs_$(date +%F-%H).zip

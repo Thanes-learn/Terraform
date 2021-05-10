@@ -6,23 +6,25 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.webSecurity.id]
   key_name = "adminSSH"
- user_data       = <<EOF
-    #!/bin/bash
+  user_data       = <<EOF
+  #!/bin/bash
 	yum -y update
 	yum -y install openssl
 	useradd monitor -G wheel
   echo "admin@123" | passwd --stdin monitor
   sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication yes/g" /etc/ssh/sshd_config
-  systemctl stop sshd
-  sleep 10
-  systemctl start sshd
-    yum -y install httpd
-    MYIP=$HOSTNAME
-    echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
-    service httpd start
-    service httpd enabled
-    chkconfih httpd on
-    EOF
+  service restart sshd
+  service sshd restart
+  yum -y install httpd
+  MYIP=$HOSTNAME
+  echo "<h1>Hello World</h1><h2>  $HOSTNAME  </h1> ">/var/www/html/index.html
+  service httpd start
+  service httpd enabled
+  service sshd restart
+  chkconfih httpd on
+  aws s3 cp s3://logs-terrafrom-backup-files/Script/restartHTTPD.sh restart.sh
+  chmod 600 restart.sh
+  EOF
 
   tags = {
     Name  = "webserver built by thanesh"
