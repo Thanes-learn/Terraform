@@ -28,7 +28,7 @@ else
         STATUS=$(curl -LI http://18.223.44.113 -o /dev/null -w '%{http_code}\n' -s )
         if [ "$STATUS" != "200" ]
         then
-            subject="Server restart process is not fixing"
+            subject="Restart process is not fixing  problem" 
             echo $subject 
             mailx  -s "$subject" -r "$from" -c "$to" 
         else

@@ -55,7 +55,7 @@ def send_mail(MSG):
         print(MSG)
     except Exception as e:
         # Display error if system unable to mail
-        print("Failed to connect SMTP Server ...\nError --:"+str(e)+"\n")
+        print("Failed to connect SMTP Server ...\nError --:"+ str(e)+"\n")
 
 
 def command(hostname, user, passwd,url):

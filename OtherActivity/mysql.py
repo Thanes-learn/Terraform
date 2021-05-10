@@ -14,7 +14,7 @@ try:
     cur = db.cursor()
     cur.execute("SELECT VERSION()")
     data = cur.fetchone()
-    print("Database version : %s " % data)
+    print("Database Version : %s " % data)
 
     #Creating Schema and Table -- IT will not delete if you mistakely execute this scipt
     cur.execute("CREATE SCHEMA  IF NOT EXISTS LOGS")

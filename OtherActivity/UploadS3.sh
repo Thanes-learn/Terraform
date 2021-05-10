@@ -5,7 +5,7 @@ from="thanesh.aws@gmail.com"
 to="thanesh.aws@gmail.com"
 subject=""
 S3_URL="s3://logs-terrafrom-backup-files/logs/"
-echo "connecting Server $hostname  "
+echo "Connecting Server $hostname  "
 ssh -o "StrictHostKeyChecking=no" -i adminSSH.pem ec2-user@$hostname 'ls -l';
 SSH_STATUS=$?
 if [ $SSH_STATUS != "0" ]
