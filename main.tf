@@ -22,8 +22,6 @@ resource "aws_instance" "web" {
   service httpd enabled
   service sshd restart
   chkconfih httpd on
-  aws s3 cp s3://logs-terrafrom-backup-files/Script/restartHTTPD.sh restart.sh
-  chmod 600 restart.sh
   EOF
 
   tags = {

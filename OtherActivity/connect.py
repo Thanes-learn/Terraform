@@ -28,7 +28,7 @@ def send_mail(MSG):
     # cofigue email server setting here
     SMTP_USER = "AKIAXXUAKECXLOFBYVAH"
     SMTP_PASSWORD = "BIx2ZzS+9kGvGn+LWZ5RoSqGrbW7gpPWx83tvdwJVz1h"
-
+    SMTP_URL="email-smtp.us-east-2.amazonaws.com"
     # Sender and Reciver Emails
     FROM = "thanesh.aws@gmail.com"
     SYSTM_TEAM = ['thanesh.aws@gmail.com', 'thanesh.aws@gmail.com']
@@ -47,7 +47,7 @@ def send_mail(MSG):
     # It will help us to find the other issues occure here
     try:
         print("Connecting SMTP Server")
-        server = smtplib.SMTP_SSL('email-smtp.us-east-2.amazonaws.com', 465)
+        server = smtplib.SMTP_SSL(SMTP_URL, 465)
         server.ehlo()
         server.login(SMTP_USER, SMTP_PASSWORD)
         server.sendmail(FROM, SYSTM_TEAM, email_text)
