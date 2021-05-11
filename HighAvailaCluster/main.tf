@@ -109,7 +109,7 @@ resource "aws_security_group" "elb" {
 
 #Create and configure load balance to distribute traffic
 resource "aws_elb" "elasticlb" {
-  name               = "elasitc load balaence"
+  name               = "elasitc_load_balaence"
   security_groups    = [aws_security_group.elb.id]
   availability_zones = data.aws_availability_zones.all.names 
   
@@ -174,6 +174,6 @@ resource "aws_autoscaling_schedule" "scale_up" {
 #Display DNS URL to check web server--
 #We can use this DNS to mapping with another readable hostname with route53 
 output "clb_dns_name" {
-  value       = aws_elb.example.dns_name
+  value       = aws_elb.elasticlb.dns_name
   description = "The domain name of the load balancer"
 }
