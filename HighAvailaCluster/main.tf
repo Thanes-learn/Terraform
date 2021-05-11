@@ -4,7 +4,7 @@ provider "aws" {
 
 # Creating Access Control list to control Network 
 resource "aws_security_group" "webSecurity" {
-  name = "WebServerACL"
+  name = "WebServerHA"
 
   ingress {
     from_port   = 80
@@ -109,7 +109,7 @@ resource "aws_security_group" "elb" {
 
 #Create and configure load balance to distribute traffic
 resource "aws_elb" "elasticlb" {
-  name               = "elasitc_load_balaence"
+  name               = "elasitc-load-balaence"
   security_groups    = [aws_security_group.elb.id]
   availability_zones = data.aws_availability_zones.all.names 
   
@@ -157,7 +157,7 @@ resource "aws_autoscaling_schedule" "scale_down" {
   max_size               = 3
   recurrence             = "0 17 * * *"
   desired_capacity       = 2
-  autoscaling_group_name = [aws_autoscaling_group.mutipleServer.name]
+  autoscaling_group_name =aws_autoscaling_group.mutipleServer.name
 }
 
 # Auto up  Instance capasity daily 9am
@@ -167,7 +167,7 @@ resource "aws_autoscaling_schedule" "scale_up" {
   max_size               = 10
   recurrence             = "* 09 * * *"
   desired_capacity       = 5
-  autoscaling_group_name = [aws_autoscaling_group.mutipleServer.name]
+  autoscaling_group_name = aws_autoscaling_group.mutipleServer.name
 }
 
 

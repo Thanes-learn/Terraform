@@ -3,3 +3,9 @@
 *.tfstate.backup
 .terraform.lock.hcl
 *.pem
+HighAvailaCluster/.terraform.tfstate.lock.info
+HighAvailaCluster/.terraform
+HighAvailaCluster/*.tfstate
+HighAvailaCluster/*.tfstate.backup
+HighAvailaCluster/.terraform.lock.hcl
+HighAvailaCluster/*.pem
