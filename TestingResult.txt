@@ -1,3 +1,6 @@
+
+
+
 -------------Completed----
 SingleServer -- Sucess
 S3Deply -- Sucess
@@ -6,6 +9,7 @@ HighAvailability -- Sucess
 
 
 --------------InProcess---------------
-Converting UploadS3.sh into python3 
+Converting UploadS3.sh into python3
+Learing Moduler concept in Terraform // Terraform UP & Running by Brinkman
 
 
