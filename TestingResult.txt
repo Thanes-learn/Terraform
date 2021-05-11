@@ -6,7 +6,7 @@ SingleServer -- Sucess
 S3Deply -- Sucess
 OtherActivty/Monitoring Script --Sucess
 HighAvailability -- Sucess
-
+Logging --Sucess
 
 --------------InProcess---------------
 Converting UploadS3.sh into python3
